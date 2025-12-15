@@ -69,7 +69,7 @@ This section can be placed anywhere in the pull request body. The action will se
 - **Default**: ``
 
 ### `skip-placeholders`
-- **Description**: Comma-separated placeholder tokens. If any token appears in the first release notes bullet, the check is skipped. Example: `TBD,ToDo`.
+- **Description**: Comma-separated placeholder tokens (e.g., `TBD`, `ToDo`). This option allows using a PR template with a predefined “Release Notes” heading without causing automatic passes. If any placeholder appears at the start of the first release-notes bullet, the check fails, ensuring authors replace template text with real notes.
 - **Required**: No
 - **Default**: ``
 
@@ -86,12 +86,12 @@ See the default action step definition:
 
 - name: Release Notes Presence Check
   id: release_notes_presence_check
-  uses: AbsaOSS/release-notes-presence-check@v0.1.0
+  uses: AbsaOSS/release-notes-presence-check@v0.4.0
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
   with:
-    github-repository: "{ org }/{ repo }"         # e.g. ${{ github.repository }}
-    pr-number: 109                                # e.g. ${{ github.event.number }} 
+    github-repository: ${{ github.repository }}
+    pr-number: ${{ github.event.number }} 
     location: "body"
     title: "[Rr]elease [Nn]otes:"
     skip-labels: "skip-release-notes,no-release-notes"
